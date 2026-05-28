@@ -167,8 +167,38 @@
     .file-size { font-size: 0.65rem; opacity: 0.7; font-weight: normal; margin-left: 4px; }
     .file-missing { display: inline-block; font-size: 0.75rem; opacity: 0.4; font-style: italic; margin: 2px 0; font-family: var(--font-ui); }
 
-    .search-container { margin-bottom: 1.5rem; }
-    #searchBar { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-family: var(--font-ui); font-size: 1rem; outline: none; }
+    .search-container { margin-bottom: 1.5rem; display: flex; gap: 10px; }
+    #searchBar { flex-grow: 1; padding: 0.75rem 1rem; border: 2px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-family: var(--font-ui); font-size: 1rem; outline: none; }
+    
+    .cloud-btn { 
+      padding: 0 1.5rem; background: var(--border-color); color: var(--bg-color); 
+      font-family: var(--font-ui); font-weight: bold; cursor: pointer; border: none; 
+      display: flex; align-items: center; gap: 8px; transition: opacity 0.2s;
+    }
+    .cloud-btn:hover { opacity: 0.8; }
+    .cloud-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    /* WORD CLOUD MODAL */
+    #cloud-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-color); z-index: 10000; display: none;
+      flex-direction: column; padding: 2rem; overflow-y: auto;
+    }
+    .cloud-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .cloud-header h2 { font-family: var(--font-heading); font-size: 2rem; }
+    .close-cloud { cursor: pointer; font-family: var(--font-ui); font-weight: bold; border: 2px solid var(--border-color); padding: 0.5rem 1rem; }
+    
+    .cloud-container {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+    .cloud-word {
+      cursor: pointer; transition: transform 0.2s, color 0.2s;
+      font-family: var(--font-heading); text-transform: uppercase;
+      display: inline-block; white-space: nowrap;
+    }
+    .cloud-word:hover { transform: scale(1.15); color: var(--highlight-bg); }
+    .cloud-word span { font-size: 0.8rem; opacity: 0.5; font-family: var(--font-ui); vertical-align: super; }
 
     @media (max-width: 1200px) {
       header { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 3.5rem; }
@@ -247,6 +277,20 @@
 
     <div class="search-container">
       <input type="text" id="searchBar" placeholder="Search anything..." onkeyup="renderTable()">
+      <button class="cloud-btn" onclick="toggleCloud(true)">
+        <svg viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M11,7h2v2h-2V7z M11,11h2v6h-2V11z"/></svg>
+        Mind Map
+      </button>
+    </div>
+
+    <div id="cloud-overlay">
+      <div class="cloud-header">
+        <h2>Content Mind Map</h2>
+        <div class="close-cloud" onclick="toggleCloud(false)">CLOSE [ESC]</div>
+      </div>
+      <div id="word-cloud" class="cloud-container">
+        <!-- Words will be injected here -->
+      </div>
     </div>
 
     <div class="filters-section">
@@ -980,10 +1024,61 @@
         const chip = document.createElement('span'); chip.className = `tag tag-skill ${activeSkills.has(s) ? 'active' : ''}`; chip.innerText = s; chip.onclick = () => toggleTag('skill', s); sCont.appendChild(chip);
       });
       Array.from(tools).sort().forEach(t => {
-        const chip = document.createElement('span'); chip.className = `tag tag-tool ${activeTools.has(t) ? 'active' : ''}`; chip.innerText = t; chip.onclick = () => toggleTag('tool', t); tCont.appendChild(chip);
+        const chip = document.createElement('span'); chip.className = `tag tag-tool ${activeTools.has(t) ? 'active' : ''}`; chip.innerText = t; chip.onclick = () => toggleTag('skill', t); tCont.appendChild(chip);
       });
     }
 
+    let cloudData = [];
+    async function initCloud() {
+      try {
+        const res = await fetch('./word_cloud_data.json');
+        cloudData = await res.json();
+      } catch (e) { console.log("Cloud data not loaded"); }
+    }
+
+    function toggleCloud(show) {
+      const overlay = document.getElementById('cloud-overlay');
+      overlay.style.display = show ? 'flex' : 'none';
+      if (show && cloudData.length > 0) {
+        renderCloud();
+        gtag('event', 'view_word_cloud');
+      }
+    }
+
+    function renderCloud() {
+      const container = document.getElementById('word-cloud');
+      container.innerHTML = '';
+      const maxCount = Math.max(...cloudData.map(d => d.count));
+      const minCount = Math.min(...cloudData.map(d => d.count));
+
+      cloudData.sort(() => Math.random() - 0.5).forEach(d => {
+        const size = 1 + (d.count / maxCount) * 3; // Scale 1rem to 4rem
+        const word = document.createElement('div');
+        word.className = 'cloud-word';
+        word.style.fontSize = `${size}rem`;
+        word.innerHTML = `${d.word}<span>${d.count}</span>`;
+        word.onclick = () => openRandomFile(d.files, d.word);
+        container.appendChild(word);
+      });
+    }
+
+    function openRandomFile(files, word) {
+      const randomPath = files[Math.floor(Math.random() * files.length)];
+      gtag('event', 'cloud_click', {'word': word, 'file': randomPath});
+      
+      let url = './' + encodeURI(randomPath);
+      if (randomPath.match(/\.(docx?|xlsx?|pptx?|xls)$/i)) {
+        const abs = `https://mchlmrtn.github.io/portfolio/${randomPath}`;
+        url = `https://docs.google.com/gview?url=${encodeURIComponent(abs)}&embedded=true`;
+      }
+      window.open(url, '_blank');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleCloud(false);
+    });
+
+    initCloud();
     renderFilters();
     renderTable();
   </script>
