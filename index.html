@@ -210,6 +210,7 @@
       <div class="nav-actions">
         <a href="https://github.com/mchlmrtn" target="_blank">GitHub</a>
         <a href="https://www.linkedin.com/in/mchlmrtn/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/mchlmrtn/portfolio/raw/main/Files/Michal%20Kosnik%20CV%20NEW.pdf" target="_blank">Curriculum Vitae</a>
       </div>
       
       <div class="brand-container">
@@ -243,7 +244,7 @@
     </div>
 
     <div class="search-container">
-      <input type="text" id="searchBar" placeholder="Search anything..." onkeyup="renderTable()">
+      <input type="text" id="searchBar" placeholder="Search anything... [CTRL+F]" onkeyup="renderTable()">
     </div>
 
     <div class="filters-section">
@@ -794,7 +795,11 @@
       if (document.getElementById('passwordInput').value === 'mk') {
         document.getElementById('gatekeeper').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
-      } else { document.getElementById('errorMsg').style.display = 'block'; }
+      } else { 
+        const errorEl = document.getElementById('errorMsg');
+        errorEl.style.display = 'block';
+        errorEl.innerText = "Incorrect access code. Hint: 'mk'.";
+      }
     }
 
     const nameEl = document.getElementById('animatedName');
@@ -983,6 +988,18 @@
 
     renderFilters();
     renderTable();
+
+    // CTRL+F keyboard shortcut (Desktop only)
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'f') {
+        if (window.innerWidth > 1200) {
+          e.preventDefault();
+          const searchBar = document.getElementById('searchBar');
+          searchBar.focus();
+          searchBar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    });
   </script>
 </body>
 </html>
