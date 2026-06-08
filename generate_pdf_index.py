@@ -16,17 +16,21 @@ def extract_text_from_pdf(pdf_path):
         return ""
 
 def main():
-    repo_path = "portfolio_repo"
+    repo_path = "."
     files_to_index = []
     
-    # We could parse index.html to get the files, or just walk the directory
-    # Let's walk the directory to be thorough, but filter by .pdf
-    for root, dirs, files in os.walk(os.path.join(repo_path, "Files")):
+    # Index PDFs in the root and in Files directory
+    for root, dirs, files in os.walk(repo_path):
+        # Skip .git directory
+        if ".git" in dirs:
+            dirs.remove(".git")
+        
         for file in files:
             if file.lower().endswith(".pdf"):
                 full_path = os.path.join(root, file)
-                # Store path relative to repo_path
                 rel_path = os.path.relpath(full_path, repo_path)
+                # Normalize path for JSON (use forward slashes)
+                rel_path = rel_path.replace("\\", "/")
                 files_to_index.append(rel_path)
 
     index = {}
@@ -37,7 +41,7 @@ def main():
         if text:
             index[rel_path] = text
 
-    with open(os.path.join(repo_path, "pdf_index.json"), "w", encoding="utf-8") as f:
+    with open("pdf_index.json", "w", encoding="utf-8") as f:
         json.dump(index, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
