@@ -107,9 +107,9 @@
     .intro-alt a { color: inherit; text-decoration: underline; font-weight: bold; }
 
     /* FILTERS */
-    .filters-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+    .filters-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 1.5rem; padding-top: 1.5rem; }
     .filter-group { display: flex; flex-direction: column; }
-    .filter-group .label { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+    .filter-group .label { font-family: var(--font-heading); font-size: 1rem; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.8rem; border: 1px solid var(--border-color); background: var(--bg-color); max-height: 120px; overflow-y: auto; }
 
     /* TABLE */
@@ -197,7 +197,7 @@
       color: var(--text-color);
       opacity: 0.3;
       font-size: 0.8rem;
-      font-family: 'Bodoni MT', serif;
+      font-family: var(--font-ui);
     }
     .youtube-link {
       display: inline-block; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; font-family: var(--font-ui);
@@ -241,6 +241,12 @@
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 0.4rem;
     }
+    #gatekeeper .version-footer {
+      position: absolute;
+      bottom: 2rem;
+      color: var(--off-paper);
+      opacity: 0.5;
+    }
   </style>
 </head>
 <body>
@@ -253,6 +259,7 @@
       <button type="submit">Access</button>
       <p id="errorMsg" style="color: #ff4d4d; margin-top: 1rem; display: none;">Incorrect access code.</p>
     </form>
+    <div class="version-footer">v1.5</div>
   </div>
 
   <div id="main-content">
@@ -311,8 +318,6 @@
       </div>
     </div>
 
-    <div id="cvSearchResults"></div>
-
     <div class="table-container">
       <table>
         <thead>
@@ -329,9 +334,11 @@
         <tbody id="tableBody"></tbody>
       </table>
     </div>
+
+    <div id="cvSearchResults"></div>
   </div>
 
-  <div class="version-footer">V1.4</div>
+  <div class="version-footer">v1.5</div>
 
   <script>
     const fileSizes = {
