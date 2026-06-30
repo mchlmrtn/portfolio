@@ -173,12 +173,12 @@
       .col-year::before, .col-module::before { display: none; }
       .col-module { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
       
-      .brand-title { display: block; font-size: 4.5rem; position: relative; height: 6.5rem; padding-bottom: 0; margin-bottom: 0; }
+      .brand-title { display: block; font-size: 4.5rem; position: relative; height: 9rem; padding-bottom: 0; margin-bottom: 0; }
       .brand-title .word-wrap { display: block; text-align: center; position: absolute; width: 100%; left: 0; line-height: 1; }
       .brand-title #first-name { top: 0; }
-      .brand-title #last-name { top: 3.2rem; }
+      .brand-title #last-name { top: 4.2rem; }
       .brand-title span { padding: 0 5px; margin: 0 -3px; }
-      .header-sub { margin-top: 1.5rem; margin-bottom: 1.5rem; font-size: 0.85rem; }
+      .header-sub { margin-top: 2rem; margin-bottom: 2rem; font-size: 0.85rem; }
       .name-space { display: none; }
     }
     #scrollToTopBtn {
