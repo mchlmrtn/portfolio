@@ -82,7 +82,7 @@
     
     .brand-container { grid-column: 2; text-align: center; position: relative; }
     .brand-title { font-size: 3.5rem; letter-spacing: 1px; cursor: crosshair; user-select: none; line-height: 1.1; font-family: 'Bodoni MT', serif; position: relative; height: 4rem; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
-    .brand-title span { display: inline-block; min-width: 0.3em; transition: all 0.05s; }
+    .brand-title span { display: inline-block; min-width: 0.3em; transition: all 0.05s; transform: translateZ(0); will-change: font-family; }
     
     .header-sub { font-family: var(--font-heading); font-size: 1.1rem; opacity: 0.9; margin-top: 0.5rem; letter-spacing: 0.5px; }
     
@@ -190,8 +190,8 @@
       .col-year::before, .col-module::before { display: none; }
       .col-module { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
       
-      .brand-title { font-size: 2.8rem; height: auto; flex-direction: column; align-items: center; padding-bottom: 1rem; }
-      .brand-title .word-wrap { display: flex; justify-content: center; }
+      .brand-title { font-size: 2.8rem; height: 6.5rem; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 0; }
+      .brand-title .word-wrap { display: flex; justify-content: center; line-height: 0.95; }
       .name-space { display: none; }
     }
     .version-footer {
@@ -264,9 +264,9 @@
     <header>
       <div class="nav-actions">
         <span class="nav-line">
-          <a href="https://github.com/mchlmrtn" target="_blank">GitHub</a>
-          <a href="https://www.linkedin.com/in/mchlmrtn/" target="_blank">LinkedIn</a>
           <a href="mailto:michal@mkosnik.co">Email</a>
+          <a href="https://www.linkedin.com/in/mchlmrtn/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/mchlmrtn" target="_blank">GitHub</a>
         </span>
         <span class="nav-line">
           <a href="https://mchlmrtn.github.io/portfolio/Files/Michal%20Kosnik%20CV%20NEW.pdf" target="_blank">Curriculum Vitae</a>
@@ -337,7 +337,7 @@
     <div id="cvSearchResults"></div>
   </div>
 
-  <div class="version-footer">v1.6</div>
+  <div class="version-footer">v1.6.1</div>
 
   <script>
     const fileSizes = {
