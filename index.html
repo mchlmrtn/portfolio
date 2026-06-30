@@ -190,17 +190,22 @@
       .col-year::before, .col-module::before { display: none; }
       .col-module { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
       
-      .brand-title { font-size: 2.8rem; height: auto; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 0; }
-      .brand-title .word-wrap { display: block; text-align: center; margin-bottom: -0.5rem; line-height: 1; }
+      .brand-title { font-size: 2.8rem; height: auto; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 0; margin-bottom: 1.5rem; }
+      .brand-title .word-wrap { display: block; text-align: center; margin-bottom: -1rem; line-height: 1; }
+      .brand-title span { padding: 0 1px; }
       .name-space { display: none; }
     }
     #scrollToTopBtn {
-      display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; font-size: 1.5rem;
+      display: none; position: fixed; bottom: 30px; right: 5%; z-index: 99;
+      width: 55px; height: 55px; border-radius: 50%;
       border: none; outline: none; background-color: var(--text-color); color: var(--bg-color);
-      cursor: pointer; padding: 10px 15px; border-radius: 4px; font-family: var(--font-ui);
-      transition: opacity 0.3s;
+      cursor: pointer; align-items: center; justify-content: center;
+      transition: opacity 0.3s, transform 0.2s;
     }
-    #scrollToTopBtn:hover { opacity: 0.8; }
+    #scrollToTopBtn:hover { opacity: 0.8; transform: scale(1.1); }
+    @media (max-width: 1200px) {
+      #scrollToTopBtn { right: 20px; bottom: 20px; width: 45px; height: 45px; }
+    }
     
     .version-footer {
       text-align: center;
@@ -345,9 +350,11 @@
     <div id="cvSearchResults"></div>
   </div>
 
-  <button id="scrollToTopBtn" title="Go to top">↑</button>
+  <button id="scrollToTopBtn" title="Go to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
 
-  <div class="version-footer">v1.6.2</div>
+  <div class="version-footer">v1.6.3</div>
 
   <script>
     const fileSizes = {
@@ -1133,7 +1140,7 @@
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
     window.addEventListener("scroll", () => {
       if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        scrollToTopBtn.style.display = "block";
+        scrollToTopBtn.style.display = "flex";
       } else {
         scrollToTopBtn.style.display = "none";
       }
