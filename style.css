@@ -64,7 +64,7 @@
     header { border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 1rem; position: relative; }
     
     .brand-container { grid-column: 2; text-align: center; position: relative; }
-    .brand-title { font-size: 6rem; letter-spacing: 1px; cursor: crosshair; user-select: none; line-height: 1.1; font-family: 'Bodoni MT', serif; position: relative; height: 4.6rem; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
+    .brand-title { font-size: 5rem; letter-spacing: 1px; cursor: crosshair; user-select: none; line-height: 1.1; font-family: 'Bodoni MT', serif; position: relative; height: 4.6rem; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
     .brand-title span { display: inline-block; min-width: 0.3em; transition: all 0.05s; transform: translateZ(0); will-change: font-family; }
     
     .header-sub { font-family: var(--font-heading); font-size: 1.1rem; opacity: 0.9; margin-top: 0.5rem; letter-spacing: 0.5px; }
