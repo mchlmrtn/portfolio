@@ -190,10 +190,18 @@
       .col-year::before, .col-module::before { display: none; }
       .col-module { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 0.5rem; font-size: 1.4rem; }
       
-      .brand-title { font-size: 2.8rem; height: 6.5rem; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 0; }
-      .brand-title .word-wrap { display: flex; justify-content: center; line-height: 0.95; }
+      .brand-title { font-size: 2.8rem; height: auto; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 0; }
+      .brand-title .word-wrap { display: block; text-align: center; margin-bottom: -0.5rem; line-height: 1; }
       .name-space { display: none; }
     }
+    #scrollToTopBtn {
+      display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; font-size: 1.5rem;
+      border: none; outline: none; background-color: var(--text-color); color: var(--bg-color);
+      cursor: pointer; padding: 10px 15px; border-radius: 4px; font-family: var(--font-ui);
+      transition: opacity 0.3s;
+    }
+    #scrollToTopBtn:hover { opacity: 0.8; }
+    
     .version-footer {
       text-align: center;
       padding: 2rem 0;
@@ -337,7 +345,9 @@
     <div id="cvSearchResults"></div>
   </div>
 
-  <div class="version-footer">v1.6.1</div>
+  <button id="scrollToTopBtn" title="Go to top">↑</button>
+
+  <div class="version-footer">v1.6.2</div>
 
   <script>
     const fileSizes = {
@@ -1119,6 +1129,18 @@
         document.getElementById('errorMsg').style.display = 'block';
       }
     }
+
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    window.addEventListener("scroll", () => {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollToTopBtn.style.display = "block";
+      } else {
+        scrollToTopBtn.style.display = "none";
+      }
+    });
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
   </script>
 </body>
 </html>
